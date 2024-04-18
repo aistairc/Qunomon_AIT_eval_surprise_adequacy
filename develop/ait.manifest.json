@@ -1,0 +1,122 @@
+{
+  "name": "eval_surprise_adequacy",
+  "description": "入力VAEモデルのサプライズ適切性（SA）を計算しています。SAは、入力データの各サンプルに対する各ニューロンの活動トレースを評価します。詳細については、元の論文「Kim, et al. Evaluating Surprise Adequacy for Deep Learning System Testing」（URL: https://dl.acm.org/doi/full/10.1145/3546947）",
+  "source_repository": "https://github.com/aistairc/Qunomon_AIT_eval_surprise_adequacy",
+  "version": "1.0",
+  "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/A-1問題領域分析の十分性",
+  "keywords": [
+    "evaluation"
+  ],
+  "references": [],
+  "licenses": [],
+  "inventories": [
+    {
+      "name": "mnist_data",
+      "type": "dataset",
+      "description": "mnist data",
+      "requirement": {
+        "format": [
+          "npz"
+        ]
+      }
+    },
+    {
+      "name": "fashion_mnist_data",
+      "type": "dataset",
+      "description": "fashion mnist data",
+      "requirement": {
+        "format": [
+          "npz"
+        ]
+      }
+    },
+    {
+      "name": "cifar10_data",
+      "type": "dataset",
+      "description": "cifar10 data",
+      "requirement": {
+        "format": [
+          "npz"
+        ]
+      }
+    },
+    {
+      "name": "cifar100_data",
+      "type": "dataset",
+      "description": "cifar100 data",
+      "requirement": {
+        "format": [
+          "npz"
+        ]
+      }
+    },
+    {
+      "name": "vae",
+      "type": "model",
+      "description": "learned model",
+      "requirement": {
+        "format": [
+          "h5"
+        ]
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "latent_dim",
+      "type": "int",
+      "description": "Hyperparameter specifying the latent space dimension",
+      "default_val": "100"
+    },
+    {
+      "name": "batch_size",
+      "type": "int",
+      "description": "Hyperparameter specifying the batch size of the optimizer of VAE",
+      "default_val": "32"
+    },
+    {
+      "name": "datasetName",
+      "type": "str",
+      "description": "Parameter specifying dataset",
+      "default_val": "mnist"
+    },
+    {
+      "name": "noise_perc",
+      "type": "float",
+      "description": "Parameter specifying the percentage of noised labels",
+      "default_val": "20"
+    },
+    {
+      "name": "noise_systematic",
+      "type": "str",
+      "description": "Parameter specifying the type to add noise according to the label values (Sys) or random (Uni)",
+      "default_val": "Sys"
+    },
+    {
+      "name": "model_name",
+      "type": "str",
+      "description": "Parameter specifying VAE model",
+      "default_val": ""
+    },
+    {
+      "name": "DSA_filename",
+      "type": "str",
+      "description": "Parameter specifying filename to save DSA values",
+      "default_val": ""
+    }
+  ],
+  "report": {
+    "measures": [],
+    "resources": []
+  },
+  "downloads": [
+    {
+      "name": "DSA",
+      "description": "DSA of given data with given model"
+    },
+    {
+      "name": "Log",
+      "description": "AIT実行ログ"
+    }
+  ]
+}
