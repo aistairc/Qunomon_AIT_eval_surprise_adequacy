@@ -196,8 +196,7 @@ if not is_ait_launch:
     manifest_generator.add_ait_parameters(name='noise_perc', type_='float', default_val='20', description='Parameter specifying the percentage of noised labels')
     manifest_generator.add_ait_parameters(name='noise_systematic', type_='str', default_val='Sys', description='Parameter specifying the type to add noise according to the label values (Sys) or random (Uni)')
     manifest_generator.add_ait_parameters(name='model_name', type_='str', default_val='', description='Parameter specifying VAE model')
-    manifest_generator.add_ait_parameters(name='DSA_filename', type_='str', default_val='', description='Parameter specifying filename to save DSA values')
-    
+
     ### output
     manifest_generator.add_ait_downloads(name='DSA', description='DSA of given data with given model')
     manifest_generator.add_ait_downloads(name='Log', description='AIT実行ログ')
@@ -235,14 +234,12 @@ if not is_ait_launch:
     noise_perc = 10
     noise_systematic = 'Sys'
     model_name = f'vae_{datasetName}_{noise_systematic}_{noise_perc}.keras'
-    DSA_filename = f'{model_name}_DSA_values.csv'
 
     input_generator.set_ait_params(name='datasetName', value=datasetName)
     input_generator.set_ait_params(name='noise_perc', value=noise_perc)
     input_generator.set_ait_params(name='noise_systematic', value=noise_systematic)
     input_generator.set_ait_params(name='model_name', value=model_name)
     input_generator.add_ait_inventories(name='vae', value=f'vae_model/{model_name}')
-    input_generator.set_ait_params(name='DSA_filename', value=DSA_filename)
     
     input_generator.write()
 
@@ -289,7 +286,7 @@ def load_model(model_name: str = 'vae_model'):
     return vae_model
 
 @log(logger)
-@downloads(ait_output, path_helper, 'DSA', DSA_filename)
+@downloads(ait_output, path_helper, 'DSA', 'DSA_values.csv')
 def calculate_DSA(vae_model, train_data, file_path: str = None):
     encoder = vae_model.get_layer('Encoder')
     decoder = vae_model.get_layer('Decoder')

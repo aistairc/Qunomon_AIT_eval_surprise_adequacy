@@ -97,12 +97,6 @@
       "type": "str",
       "description": "Parameter specifying VAE model",
       "default_val": ""
-    },
-    {
-      "name": "DSA_filename",
-      "type": "str",
-      "description": "Parameter specifying filename to save DSA values",
-      "default_val": ""
     }
   ],
   "report": {
