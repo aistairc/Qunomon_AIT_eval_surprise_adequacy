@@ -171,34 +171,31 @@ if not is_ait_launch:
     manifest_generator.set_ait_description('入力VAEモデルのサプライズ適切性（SA）を計算しています。SAは、入力データの各サンプルに対する各ニューロンの活動トレースを評価します。詳細については、元の論文「Kim, et al. Evaluating Surprise Adequacy for Deep Learning System Testing」（URL: https://dl.acm.org/doi/full/10.1145/3546947）')
     manifest_generator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_surprise_adequacy')
     manifest_generator.set_ait_version('1.0')
+    manifest_generator.add_ait_licenses('Apache License Version 2.0')
     manifest_generator.add_ait_keywords('evaluation')
-    manifest_generator.set_ait_quality('https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/A-1問題領域分析の十分性')
+    manifest_generator.set_ait_quality('https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-1機械学習モデルの正確性')
     
-    inventory_requirement_cifar100_data      = manifest_generator.format_ait_inventory_requirement(format_=['npz'])
-    inventory_requirement_cifar10_data       = manifest_generator.format_ait_inventory_requirement(format_=['npz'])
-    inventory_requirement_fashion_mnist_data = manifest_generator.format_ait_inventory_requirement(format_=['npz'])
-    inventory_requirement_mnist_data         = manifest_generator.format_ait_inventory_requirement(format_=['npz'])
-
-    manifest_generator.add_ait_inventories(name='mnist_data', type_='dataset', description='mnist data', requirement=inventory_requirement_mnist_data)
-    manifest_generator.add_ait_inventories(name='fashion_mnist_data', type_='dataset', description='fashion mnist data', requirement=inventory_requirement_fashion_mnist_data)
-    manifest_generator.add_ait_inventories(name='cifar10_data', type_='dataset', description='cifar10 data', requirement=inventory_requirement_cifar10_data)
-    manifest_generator.add_ait_inventories(name='cifar100_data', type_='dataset', description='cifar100 data', requirement=inventory_requirement_cifar100_data)
+    # inventory
+    inventory_requirement_image_dataset = manifest_generator.format_ait_inventory_requirement(format_=['npz'])
+    manifest_generator.add_ait_inventories(name='image_dataset', 
+                                           type_='dataset', 
+                                           description='画像データセット ※以下の4つのみ利用可能：mnist data, fashion mnist data, cifar10 data, cifar100 data', 
+                                           requirement=inventory_requirement_image_dataset)
     
     inventory_requirement_vae_model = manifest_generator.format_ait_inventory_requirement(format_=['h5'])
-    manifest_generator.add_ait_inventories(name='vae', type_='model', description='learned model', requirement=inventory_requirement_vae_model)
+    manifest_generator.add_ait_inventories(name='vae', 
+                                           type_='model', 
+                                           description='学習済みのVAEモデル', 
+                                           requirement=inventory_requirement_vae_model)
+    
+    # input parameters, Hyperparameters
+    manifest_generator.add_ait_parameters(name='latent_dim', 
+                                          type_='int', 
+                                          default_val='100', 
+                                          description='潜在空間の次元を指定するハイパーパラメーター')
 
-    ### input parameters, Hyperparameters
-    manifest_generator.add_ait_parameters(name='latent_dim', type_='int', default_val='100', description='Hyperparameter specifying the latent space dimension')
-    manifest_generator.add_ait_parameters(name='batch_size', type_='int', default_val='32', description='Hyperparameter specifying the batch size of the optimizer of VAE')
-
-    ### input parameters
-    manifest_generator.add_ait_parameters(name='datasetName', type_='str', default_val='mnist', description='Parameter specifying dataset')
-    manifest_generator.add_ait_parameters(name='noise_perc', type_='float', default_val='20', description='Parameter specifying the percentage of noised labels')
-    manifest_generator.add_ait_parameters(name='noise_systematic', type_='str', default_val='Sys', description='Parameter specifying the type to add noise according to the label values (Sys) or random (Uni)')
-    manifest_generator.add_ait_parameters(name='model_name', type_='str', default_val='', description='Parameter specifying VAE model')
-
-    ### output
-    manifest_generator.add_ait_downloads(name='DSA', description='DSA of given data with given model')
+    # output
+    manifest_generator.add_ait_downloads(name='DSA', description='Data Structure Analysis of given data with given model')
     manifest_generator.add_ait_downloads(name='Log', description='AIT実行ログ')
     manifest_path = manifest_generator.write()
 
@@ -213,34 +210,14 @@ if not is_ait_launch:
 if not is_ait_launch:
     from ait_sdk.common.files.ait_input_generator import AITInputGenerator
     input_generator = AITInputGenerator(manifest_path)
-    input_generator.add_ait_inventories(name='mnist_data',
+    input_generator.add_ait_inventories(name='image_dataset',
                                         value='mnist_data/mnist_train_data.npz')
-    input_generator.add_ait_inventories(name='fashion_mnist_data',
-                                        value='fashion_mnist_data/fashion_mnist_train_data.npz')
-    input_generator.add_ait_inventories(name='cifar10_data',
-                                        value='cifar10_data/cifar10_train_data.npz')
-    input_generator.add_ait_inventories(name='cifar100_data',
-                                        value='cifar100_data/cifar100_train_data.npz')
-
+    input_generator.add_ait_inventories(name='vae', 
+                                        value='vae_model/vae_mnist_Sys_10.keras')
     
-    ### hyperparameter
     latent_dim = 100
-    batch_size = 32
     input_generator.set_ait_params(name='latent_dim', value=latent_dim)
-    input_generator.set_ait_params(name='batch_size', value=batch_size)
-    
-    ### input parameters
-    datasetName = 'mnist'
-    noise_perc = 10
-    noise_systematic = 'Sys'
-    model_name = f'vae_{datasetName}_{noise_systematic}_{noise_perc}.keras'
 
-    input_generator.set_ait_params(name='datasetName', value=datasetName)
-    input_generator.set_ait_params(name='noise_perc', value=noise_perc)
-    input_generator.set_ait_params(name='noise_systematic', value=noise_systematic)
-    input_generator.set_ait_params(name='model_name', value=model_name)
-    input_generator.add_ait_inventories(name='vae', value=f'vae_model/{model_name}')
-    
     input_generator.write()
 
 
@@ -280,10 +257,6 @@ ait_manifest.read_json(path_helper.get_manifest_file_path())
 
 # In[11]:
 
-
-def load_model(model_name: str = 'vae_model'):
-    vae_model = keras.models.load_model(model_name, compile=False)
-    return vae_model
 
 @log(logger)
 @downloads(ait_output, path_helper, 'DSA', 'DSA_values.csv')
@@ -345,9 +318,17 @@ def move_log(file_path: str=None) -> str:
 @log(logger)
 @ait_main(ait_output, path_helper)
 def main() -> None:
-    input_data = np.load(ait_input.get_inventory_path('mnist_data'))
-    model = load_model(ait_input.get_inventory_path('vae'))
+    
+    # parameter
+    latent_dim = ait_input.get_method_param_value('latent_dim')
+    
+    # inventories
+    input_data = np.load(ait_input.get_inventory_path('image_dataset'))
+    
+    model = keras.models.load_model(ait_input.get_inventory_path('vae'), compile=False)
+
     dsa = calculate_DSA(model, input_data['X'])
+    
     move_log()
 
 
