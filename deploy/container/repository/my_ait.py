@@ -315,12 +315,12 @@ def move_log(file_path: str=None) -> str:
 # In[13]:
 
 
+# parameter
+latent_dim = ait_input.get_method_param_value('latent_dim')
+
 @log(logger)
 @ait_main(ait_output, path_helper)
 def main() -> None:
-    
-    # parameter
-    latent_dim = ait_input.get_method_param_value('latent_dim')
     
     # inventories
     input_data = np.load(ait_input.get_inventory_path('image_dataset'))
