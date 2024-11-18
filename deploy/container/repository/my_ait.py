@@ -38,7 +38,7 @@
 
 # [uneditable]
 
-# In[1]:
+# In[ ]:
 
 
 # Determine whether to start AIT or jupyter by startup argument
@@ -93,8 +93,8 @@ if not is_ait_launch:
     requirements_generator.add_package('matplotlib', '3.7.3')
     requirements_generator.add_package('pandas', '2.2.3')
     requirements_generator.add_package('scikit-learn', '1.5.2')
-    requirements_generator.add_package('tensorflow', '2.11.1')
-    requirements_generator.add_package('tqdm', '4.66.2')
+    requirements_generator.add_package('tensorflow', '2.15.1')
+    requirements_generator.add_package('tqdm', '4.67.0')
 
 
 # #### #3-3 [uneditable]
@@ -170,7 +170,7 @@ if not is_ait_launch:
     manifest_generator.set_ait_name('eval_surprise_adequacy')
     manifest_generator.set_ait_description('入力VAEモデルのサプライズ適切性（SA）を計算しています。SAは、入力データの各サンプルに対する各ニューロンの活動トレースを評価します。詳細については、元の論文「Kim, et al. Evaluating Surprise Adequacy for Deep Learning System Testing」（URL: https://dl.acm.org/doi/full/10.1145/3546947）')
     manifest_generator.set_ait_source_repository('https://github.com/aistairc/Qunomon_AIT_eval_surprise_adequacy')
-    manifest_generator.set_ait_version('1.1')
+    manifest_generator.set_ait_version('1.2')
     manifest_generator.add_ait_licenses('Apache License Version 2.0')
     manifest_generator.add_ait_keywords('evaluation')
     manifest_generator.set_ait_quality('https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-1機械学習モデルの正確性')
