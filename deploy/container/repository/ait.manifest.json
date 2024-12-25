@@ -2,7 +2,7 @@
   "name": "eval_surprise_adequacy",
   "description": "入力VAEモデルのサプライズ適切性（SA）を計算しています。SAは、入力データの各サンプルに対する各ニューロンの活動トレースを評価します。詳細については、元の論文「Kim, et al. Evaluating Surprise Adequacy for Deep Learning System Testing」（URL: https://dl.acm.org/doi/full/10.1145/3546947）",
   "source_repository": "https://github.com/aistairc/Qunomon_AIT_eval_surprise_adequacy",
-  "version": "1.2",
+  "version": "1.3",
   "quality": "https://ait-hub.pj.aist.go.jp/ait-hub/api/0.0.1/qualityDimensions/機械学習品質マネジメントガイドライン第三版/C-1機械学習モデルの正確性",
   "keywords": [
     "evaluation"
